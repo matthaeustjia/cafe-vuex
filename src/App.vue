@@ -1,29 +1,103 @@
+
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+  <v-app dark>
+    <v-content>
+      <v-container>
+        <router-view></router-view>
+      </v-container>
+    </v-content>
+    <v-bottom-nav dark fixed :value="true">
+      <v-btn to="/" flat color="light-blue">
+        <span>Home</span>
+        <v-icon>home</v-icon>
+      </v-btn>
+
+      <v-btn to="/orders" flat color="light-blue">
+        <span>Order</span>
+        <v-icon>shopping_basket</v-icon>
+      </v-btn>
+
+      <v-btn to="/management" flat color="light-blue">
+        <span>Management</span>
+        <v-icon>fastfood</v-icon>
+      </v-btn>
+
+      <v-btn to="/report" flat color="light-blue">
+        <span>Report</span>
+        <v-icon>description</v-icon>
+      </v-btn>
+
+      <v-btn to="/register" flat color="light-blue">
+        <span>Register</span>
+        <v-icon>money</v-icon>
+      </v-btn>
+    </v-bottom-nav>
+  </v-app>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+import { db } from "@/firebase";
+import store from "@/store";
+
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+    todayDate() {
+      return store.state.todayDate;
     }
+  },
+  created() {
+    var start = new Date().setHours(0, 0, 0, 0);
+    var end = new Date().setHours(23, 59, 59, 999);
+
+    db.ref("invoice")
+      .orderByChild("createdAt")
+      .startAt(start)
+      .endAt(end)
+      .on("child_added", snapshot => {
+        for (let i = 0; i < snapshot.val().itemList.length; i++) {
+          if (snapshot.val().itemList[i].type == "drink") {
+            if (!snapshot.val().itemList[i].served)
+              store.commit("setUnservedDrinks", {
+                list: snapshot.val().itemList[i],
+                index: i,
+                key: snapshot.key,
+                customerName: snapshot.val().customerName
+              });
+            else
+              store.commit("setServedDrinks", {
+                list: snapshot.val().itemList[i],
+                index: i,
+                key: snapshot.key,
+                customerName: snapshot.val().customerName
+              });
+          } else if (snapshot.val().itemList[i].type == "food") {
+            if (!snapshot.val().itemList[i].served)
+              store.commit("setUnservedFoods", {
+                list: snapshot.val().itemList[i],
+                index: i,
+                key: snapshot.key,
+                customerName: snapshot.val().customerName
+              });
+            else
+              store.commit("setServedFoods", {
+                list: snapshot.val().itemList[i],
+                index: i,
+                key: snapshot.key,
+                customerName: snapshot.val().customerName
+              });
+          }
+        }
+        store.commit("setInvoices", { key: snapshot.key, ...snapshot.val() });
+      });
+    db.ref("products").on("child_added", snapshot => {
+      store.commit("setProducts", { ...snapshot.val(), key: snapshot.key });
+    });
   }
-}
+};
+</script>
+
+<style scoped>
 </style>
