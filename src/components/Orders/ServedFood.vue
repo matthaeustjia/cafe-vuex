@@ -4,7 +4,7 @@
       <v-card min-height="70px" color="success" class="py-2 ma-2">
         <v-layout column align-center justify-center>
           <h1>{{product.customerName}}</h1>
-          <h2>{{product.list.size}} {{product.list.name}}</h2>
+          <h2>{{product.list.name}}</h2>
         </v-layout>
 
         <v-layout row justify-center>

@@ -17,11 +17,11 @@
       <h5 class="display-1">Recent Order {{recentOrders.length}}</h5>
     </v-layout>
     <v-list>
-      <v-card width="500px">
+      <v-card width="400px">
         <v-list-group v-for="order in recentOrders" no-action>
           <template v-slot:activator>
             <v-list-tile>
-              <v-list-tile-content v-for="paid in order.paid">
+              <v-list-tile-content v-for="paid  in order.paid">
                 <v-list-tile-title v-if="paid.paymentType == 'cash'">
                   <v-icon color="green">far fa-money-bill-alt</v-icon>
                   ${{paid.amount}}
@@ -30,6 +30,7 @@
                   <v-icon color="orange">far fa-credit-card</v-icon>
                   ${{paid.amount}}
                 </v-list-tile-title>
+                <v-list-tile-sub-title>{{new Date(order.createdAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}}</v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
           </template>

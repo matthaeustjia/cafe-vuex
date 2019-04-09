@@ -1,51 +1,54 @@
 <template>
   <v-layout column wrap align-center>
-    <v-dialog
-      ref="startDialog"
-      v-model="startDateModal"
-      :return-value.sync="startDate"
-      persistent
-      lazy
-      full-width
-      width="290px"
-    >
-      <template v-slot:activator="{ on }">
-        <v-text-field
-          v-model="startDate"
-          label="Select startDate"
-          prepend-icon="event"
-          readonly
-          v-on="on"
-        ></v-text-field>
-      </template>
-      <v-date-picker @change="showSalesToggle" v-model="startDate" scrollable>
-        <v-spacer></v-spacer>
-        <v-btn flat color="primary" @click="$refs.startDialog.save(startDate)">OK</v-btn>
-      </v-date-picker>
-    </v-dialog>
-    <v-dialog
-      ref="endDialog"
-      v-model="endDateModal"
-      :return-value.sync="endDate"
-      persistent
-      lazy
-      full-width
-      width="290px"
-    >
-      <template v-slot:activator="{ on }">
-        <v-text-field
-          v-model="endDate"
-          label="Select endDate"
-          prepend-icon="event"
-          readonly
-          v-on="on"
-        ></v-text-field>
-      </template>
-      <v-date-picker @change="showSalesToggle" v-model="endDate" scrollable>
-        <v-spacer></v-spacer>
-        <v-btn flat color="primary" @click="$refs.endDialog.save(endDate)">OK</v-btn>
-      </v-date-picker>
-    </v-dialog>
+    <v-form @submit.prevent="showSalesToggle">
+      <v-dialog
+        ref="startDialog"
+        v-model="startDateModal"
+        :return-value.sync="startDate"
+        persistent
+        lazy
+        full-width
+        width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="startDate"
+            label="Select startDate"
+            prepend-icon="event"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="startDate" scrollable>
+          <v-spacer></v-spacer>
+          <v-btn flat color="primary" @click="$refs.startDialog.save(startDate)">OK</v-btn>
+        </v-date-picker>
+      </v-dialog>
+      <v-dialog
+        ref="endDialog"
+        v-model="endDateModal"
+        :return-value.sync="endDate"
+        persistent
+        lazy
+        full-width
+        width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="endDate"
+            label="Select endDate"
+            prepend-icon="event"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-date-picker v-model="endDate" scrollable>
+          <v-spacer></v-spacer>
+          <v-btn flat color="primary" @click="$refs.endDialog.save(endDate)">OK</v-btn>
+        </v-date-picker>
+      </v-dialog>
+      <v-btn block :disabled="buttonIsDisabled" type="submit" color="success">View Sales</v-btn>
+    </v-form>
     <v-layout v-if="invoices.length > 0" column wrap align-center>
       <v-layout justify-center>
         <h5 class="display-1">Sales ${{totalSales}}</h5>
@@ -63,12 +66,12 @@
       <v-layout justify-center>
         <h5 class="display-1">Recent Order {{recentOrders.length}}</h5>
       </v-layout>
-      <v-list>
-        <v-card width="500px">
+      <v-list class="pb-5">
+        <v-card width="400px">
           <v-list-group v-for="order in recentOrders" no-action>
             <template v-slot:activator>
               <v-list-tile>
-                <v-list-tile-content v-for="paid in order.paid">
+                <v-list-tile-content v-for="paid  in order.paid">
                   <v-list-tile-title v-if="paid.paymentType == 'cash'">
                     <v-icon color="green">far fa-money-bill-alt</v-icon>
                     ${{paid.amount}}
@@ -77,6 +80,7 @@
                     <v-icon color="orange">far fa-credit-card</v-icon>
                     ${{paid.amount}}
                   </v-list-tile-title>
+                  <v-list-tile-sub-title>{{new Date(order.createdAt).toLocaleDateString([], {hour: '2-digit', minute:'2-digit'})}}</v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>
             </template>
@@ -123,6 +127,15 @@ export default {
   },
 
   computed: {
+    buttonIsDisabled() {
+      if (
+        this.startDate != "" &&
+        this.endDate != "" &&
+        this.startDate <= this.endDate
+      )
+        return false;
+      else return true;
+    },
     totalSales: function() {
       let totalSales = 0;
       for (let i = 0; i < this.invoices.length; i++) {
@@ -156,18 +169,21 @@ export default {
       return this.invoices.slice().reverse();
     }
   },
-  created() {
-    this.showSalesToggle();
-  },
   methods: {
     showSalesToggle() {
+      var startDate = new Date(this.startDate).setHours(0, 0, 0, 0);
+      var endDate = new Date(this.endDate).setHours(23, 59, 59, 999);
+      console.log(startDate);
+      console.log(endDate);
       this.invoices = [];
 
       db.ref("invoice")
         .orderByChild("createdAt")
-        .startAt(this.startDate)
-        .on("child_added", snapshot => {
-          this.invoices.push(snapshot.val());
+        .startAt(startDate)
+        .endAt(endDate)
+        .once("value", snapshot => {
+          console.log(snapshot.val());
+          this.invoices = Object.values(snapshot.val());
         });
     }
   }

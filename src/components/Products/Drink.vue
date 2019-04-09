@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-layout column wrap>
-      <v-card width="500px" v-for="drink in drinkList">
+      <v-card width="400px" v-for="drink in drinkList">
         <v-layout row justify-space-between>
           <h1>{{drink.name}}{{drink.price}}</h1>
           <v-btn small color="red">

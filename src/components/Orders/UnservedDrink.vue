@@ -9,7 +9,7 @@
       >
         <v-layout column align-center justify-center>
           <h1>{{product.customerName}}</h1>
-          <h1>{{product.list.size}} {{product.list.name}}</h1>
+          <h2>{{product.list.size}} {{product.list.name}}</h2>
         </v-layout>
 
         <v-layout row justify-center>

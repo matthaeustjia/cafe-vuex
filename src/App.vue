@@ -2,9 +2,7 @@
 <template>
   <v-app dark>
     <v-content>
-      <v-container>
-        <router-view></router-view>
-      </v-container>
+      <router-view></router-view>
     </v-content>
     <v-bottom-nav dark fixed :value="true">
       <v-btn to="/" flat color="light-blue">
@@ -51,13 +49,15 @@ export default {
   created() {
     var start = new Date().setHours(0, 0, 0, 0);
     var end = new Date().setHours(23, 59, 59, 999);
-
+    console.log(start);
+    console.log(end);
     db.ref("invoice")
       .orderByChild("createdAt")
       .startAt(start)
       .endAt(end)
       .on("child_added", snapshot => {
         for (let i = 0; i < snapshot.val().itemList.length; i++) {
+          console.log(snapshot.val());
           if (snapshot.val().itemList[i].type == "drink") {
             if (!snapshot.val().itemList[i].served)
               store.commit("setUnservedDrinks", {
