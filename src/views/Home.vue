@@ -129,6 +129,7 @@
                   @focus="amountPaid = ''"
                   autocomplete="off"
                   label="Cash amount..."
+                  type="number"
                   v-model="amountPaid"
                   append-icon="far fa-money-bill-alt"
                   single-line
@@ -143,6 +144,7 @@
               <v-form @submit.prevent="paidBy('card')">
                 <v-text-field
                   autocomplete="off"
+                  type="number"
                   @focus="amountPaid = ''"
                   label="Amount..."
                   v-model="amountPaid"
