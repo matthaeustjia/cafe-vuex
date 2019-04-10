@@ -95,6 +95,7 @@ export default {
     db.ref("products").on("child_added", snapshot => {
       store.commit("setProducts", { ...snapshot.val(), key: snapshot.key });
     });
+
     db.ref("products").on("child_removed", snapshot => {
       const deletedProduct = store.state.products.find(
         product => product.key == snapshot.key

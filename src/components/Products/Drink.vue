@@ -1,42 +1,41 @@
 <template>
-  <div>
-    <v-layout column wrap>
-      <v-card width="400px" v-for="drink in drinkList">
-        <v-layout row justify-space-between>
-          <h1>{{drink.name}}{{drink.price}}</h1>
-          <v-btn @click="deleteDrink(drink)" small color="red">
-            <v-icon>delete_forever</v-icon>
-          </v-btn>
-        </v-layout>
-        <v-card v-for="option in drink" v-if="option.size">
-          <v-layout row>
-            <h2 class="ml-4">{{option.size}}</h2>
-            <h2 class="ml-2">${{option.price}}</h2>
-          </v-layout>
-        </v-card>
-      </v-card>
-      <v-btn color="success">
-        <v-icon>fa fa-plus</v-icon>
-      </v-btn>
+  <v-layout row wrap>
+    <v-layout column wrap justify-center content-center>
+      <v-layout v-if="!addDrink" column wrap>
+        <DrinkList></DrinkList>
+
+        <v-btn @click="addDrink = true" color="success">
+          <v-icon>fa fa-plus</v-icon>
+        </v-btn>
+      </v-layout>
+      <v-layout v-else column wrap>
+        <AddDrink></AddDrink>
+        <v-btn @click="addDrink = false" color="success">Done</v-btn>
+      </v-layout>
     </v-layout>
-  </div>
+  </v-layout>
 </template>
 
 <script>
 import store from "@/store";
 import { db } from "@/firebase";
+import AddDrink from "@/components/Products/Drinks/AddDrink.vue";
+import DrinkList from "@/components/Products/Drinks/DrinkList.vue";
+
 export default {
+  data() {
+    return {
+      addDrink: false
+    };
+  },
   computed: {
     drinkList() {
       return store.getters.drinkProducts;
     }
   },
-  methods: {
-    deleteDrink(drink) {
-      db.ref("products")
-        .child(drink.key)
-        .remove();
-    }
+  components: {
+    AddDrink,
+    DrinkList
   }
 };
 </script>
