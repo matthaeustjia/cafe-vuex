@@ -98,7 +98,7 @@
                     class="px-2 mx-1"
                     color="amber darken-4"
                     v-for="option in itemList.option"
-                  >{{option.name}}{{option.price}}</v-card>
+                  >{{option.name}}</v-card>
                 </v-layout>
               </v-list-tile-content>
 
@@ -173,8 +173,7 @@ export default {
     showSalesToggle() {
       var startDate = new Date(this.startDate).setHours(0, 0, 0, 0);
       var endDate = new Date(this.endDate).setHours(23, 59, 59, 999);
-      console.log(startDate);
-      console.log(endDate);
+
       this.invoices = [];
 
       db.ref("invoice")
@@ -182,7 +181,6 @@ export default {
         .startAt(startDate)
         .endAt(endDate)
         .once("value", snapshot => {
-          console.log(snapshot.val());
           this.invoices = Object.values(snapshot.val());
         });
     }

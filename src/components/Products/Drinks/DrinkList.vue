@@ -1,6 +1,6 @@
 <template>
   <v-layout column wrap>
-    <v-layout column wrap align-content-center>
+    <v-layout column wrap justify-center align-content-center>
       <v-card width="400px" v-for="drink in drinkList">
         <v-layout row justify-space-between>
           <h1>{{drink.name}}{{drink.price}}</h1>

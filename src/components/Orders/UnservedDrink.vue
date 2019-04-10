@@ -40,7 +40,7 @@ export default {
         .child("served")
         .set(true);
       this.$toasted.info(
-        product.list.size + " " + product.list.name + "is served",
+        product.list.size + " " + product.list.name + " is served",
         {
           theme: "toasted-primary",
           fullWidth: true,

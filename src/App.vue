@@ -1,7 +1,7 @@
 
 <template>
   <v-app dark>
-    <v-content>
+    <v-content class="mb-5">
       <router-view></router-view>
     </v-content>
     <v-bottom-nav dark fixed :value="true">

@@ -48,7 +48,7 @@
                   class="px-2 mx-1"
                   color="amber darken-4"
                   v-for="option in itemList.option"
-                >{{option.name}}{{option.price}}</v-card>
+                >{{option.name}}</v-card>
               </v-layout>
             </v-list-tile-content>
 
