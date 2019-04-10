@@ -4,8 +4,8 @@
       <v-card width="400px" v-for="drink in drinkList">
         <v-layout row justify-space-between>
           <h1>{{drink.name}}{{drink.price}}</h1>
-          <v-btn small color="red">
-            <v-icon @click="deleteDrink(drink)">delete_forever</v-icon>
+          <v-btn @click="deleteDrink(drink)" small color="red">
+            <v-icon>delete_forever</v-icon>
           </v-btn>
         </v-layout>
         <v-card v-for="option in drink" v-if="option.size">
@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     deleteDrink(drink) {
-      console.log(drink);
       db.ref("products")
         .child(drink.key)
         .remove();
