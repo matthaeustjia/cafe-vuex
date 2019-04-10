@@ -230,20 +230,33 @@ export default {
     paidBy(paymentType) {
       if (paymentType == "card") {
         if (this.amountPaid > this.amountDue) {
-          console.log("error brah, kbnykan bayarny");
+          this.$toasted.error("Card amount must be lower than amount due.", {
+            theme: "toasted-primary",
+            fullWidth: true,
+            position: "bottom-right",
+            duration: 5000
+          });
         } else {
           this.paid.push({ paymentType, amount: this.amountPaid });
         }
       } else {
         if (this.amountPaid > this.amountDue) {
-          console.log(
-            "Your change is $" + parseFloat(this.amountPaid - this.amountDue)
+          this.$toasted.success(
+            "Change: $" +
+              parseFloat(this.amountPaid - this.amountDue).toFixed(2),
+            {
+              theme: "toasted-primary",
+              fullWidth: true,
+              position: "bottom-right",
+              duration: 5000
+            }
           );
           this.paid.push({ paymentType, amount: this.amountDue });
         } else {
           this.paid.push({ paymentType, amount: this.amountPaid });
         }
       }
+
       this.paymentMethod = null;
       if (this.amountDue == 0) {
         db.ref("invoice").push({
@@ -251,6 +264,13 @@ export default {
           paid: this.paid,
           customerName: this.customerName,
           createdAt: time
+        });
+
+        this.$toasted.success("Payment is succesfull", {
+          theme: "toasted-primary",
+          fullWidth: true,
+          position: "bottom-right",
+          duration: 5000
         });
         this.itemList = [];
         this.customerName = "";

@@ -39,6 +39,15 @@ export default {
         .child(product.index)
         .child("served")
         .set(true);
+      this.$toasted.info(
+        product.list.size + " " + product.list.name + "is served",
+        {
+          theme: "toasted-primary",
+          fullWidth: true,
+          position: "bottom-right",
+          duration: 5000
+        }
+      );
       store.commit("servedDrink", { product, index });
     }
   }
