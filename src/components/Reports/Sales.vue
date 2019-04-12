@@ -173,7 +173,6 @@ export default {
     showSalesToggle() {
       var startDate = new Date(this.startDate).setHours(0, 0, 0, 0);
       var endDate = new Date(this.endDate).setHours(23, 59, 59, 999);
-
       this.invoices = [];
 
       db.ref("invoice")

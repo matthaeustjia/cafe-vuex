@@ -25,6 +25,11 @@
         <v-icon>description</v-icon>
       </v-btn>
 
+      <v-btn to="/refund" flat color="light-blue">
+        <span>Refund</span>
+        <v-icon>report</v-icon>
+      </v-btn>
+
       <v-btn to="/register" flat color="light-blue">
         <span>Register</span>
         <v-icon>money</v-icon>

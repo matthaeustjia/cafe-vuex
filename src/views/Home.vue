@@ -134,9 +134,8 @@
                   append-icon="far fa-money-bill-alt"
                   single-line
                   :rules="[() => amountPaid.length > 0 || 'This field is required']"
-                  required
                 ></v-text-field>
-                <v-btn type="submit" block large color="success">Submit</v-btn>
+                <v-btn :disabled="amountPaid ==''" type="submit" block large color="success">Submit</v-btn>
                 <v-btn @click="paymentMethod = null" block large color="warning">Back</v-btn>
               </v-form>
             </v-layout>
@@ -150,8 +149,9 @@
                   v-model="amountPaid"
                   append-icon="far fa-credit-card"
                   single-line
+                  :rules="[() => amountPaid.length > 0 || 'This field is required']"
                 ></v-text-field>
-                <v-btn type="submit" block large color="success">Submit</v-btn>
+                <v-btn :disabled="amountPaid ==''" type="submit" block large color="success">Submit</v-btn>
                 <v-btn @click="paymentMethod = null" block large color="warning">Back</v-btn>
               </v-form>
             </v-layout>
