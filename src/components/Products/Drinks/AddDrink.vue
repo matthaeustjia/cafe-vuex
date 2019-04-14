@@ -6,8 +6,6 @@
       <v-divider></v-divider>
 
       <v-stepper-step step="2">Add Drink Size</v-stepper-step>
-
-      <v-divider></v-divider>
     </v-stepper-header>
     <v-stepper-items>
       <v-stepper-content step="1">

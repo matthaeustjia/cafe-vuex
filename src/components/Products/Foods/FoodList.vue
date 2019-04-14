@@ -1,19 +1,13 @@
 <template>
   <v-layout column wrap>
     <v-layout column wrap justify-center align-content-center>
-      <v-card width="400px" v-for="drink in drinkList">
+      <v-card width="400px" v-for="food in foodList">
         <v-layout row justify-space-between>
-          <h1>{{drink.name}}</h1>
-          <v-btn @click="deleteDrink(drink)" small color="red">
+          <h1>{{food.name}} ${{food.price}}</h1>
+          <v-btn @click="deleteFood(food)" small color="red">
             <v-icon>delete_forever</v-icon>
           </v-btn>
         </v-layout>
-        <v-card v-for="option in drink" v-if="option.size">
-          <v-layout row>
-            <h2 class="ml-4">{{option.size}}</h2>
-            <h2 class="ml-2">${{option.price}}</h2>
-          </v-layout>
-        </v-card>
       </v-card>
     </v-layout>
   </v-layout>
@@ -25,14 +19,14 @@ import { db } from "@/firebase";
 
 export default {
   computed: {
-    drinkList() {
-      return store.getters.drinkProducts;
+    foodList() {
+      return store.getters.foodProducts;
     }
   },
   methods: {
-    deleteDrink(drink) {
+    deleteFood(food) {
       db.ref("products")
-        .child(drink.key)
+        .child(food.key)
         .remove();
     }
   }
