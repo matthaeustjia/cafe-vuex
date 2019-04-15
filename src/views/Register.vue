@@ -1,10 +1,14 @@
 <template>
-  <div></div>
+  <v-layout row wrap>
+    <CountRegister></CountRegister>
+  </v-layout>
 </template>
 
 <script>
-export default {};
+import CountRegister from "@/components/Register/CountRegister.vue";
+export default {
+  components: {
+    CountRegister
+  }
+};
 </script>
-
-<style scoped>
-</style>

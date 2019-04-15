@@ -4,43 +4,14 @@
     <v-content class="mb-5">
       <router-view></router-view>
     </v-content>
-    <v-bottom-nav dark fixed :value="true">
-      <v-btn to="/" flat color="light-blue">
-        <span>Home</span>
-        <v-icon>home</v-icon>
-      </v-btn>
-
-      <v-btn to="/orders" flat color="light-blue">
-        <span>Order</span>
-        <v-icon>shopping_basket</v-icon>
-      </v-btn>
-
-      <v-btn to="/management" flat color="light-blue">
-        <span>Management</span>
-        <v-icon>fastfood</v-icon>
-      </v-btn>
-
-      <v-btn to="/report" flat color="light-blue">
-        <span>Report</span>
-        <v-icon>description</v-icon>
-      </v-btn>
-
-      <v-btn to="/refund" flat color="light-blue">
-        <span>Refund</span>
-        <v-icon>report</v-icon>
-      </v-btn>
-
-      <v-btn to="/register" flat color="light-blue">
-        <span>Register</span>
-        <v-icon>money</v-icon>
-      </v-btn>
-    </v-bottom-nav>
+    <Navigation></Navigation>
   </v-app>
 </template>
 
 <script>
 import { db } from "@/firebase";
 import store from "@/store";
+import Navigation from "@/Navigation.vue";
 
 export default {
   data() {
@@ -105,6 +76,9 @@ export default {
       const index = store.state.products.indexOf(deletedProduct);
       store.state.products.splice(index, 1);
     });
+  },
+  components: {
+    Navigation
   }
 };
 </script>

@@ -75,7 +75,7 @@
         ></v-text-field>
         <v-card>
           <v-list v-if="itemList.length > 0">
-            <v-list-group v-for="order, parent_index in itemList" no-action v-model="order.active">
+            <v-list-group :value="true" v-for="order, parent_index in itemList" no-action>
               <template v-slot:activator>
                 <v-list-tile>
                   <v-list-tile-content @click="showOption(parent_index,order.type)">
@@ -305,7 +305,6 @@ export default {
       this.showOptionType = item.type;
       this.paymentMethod = null;
       this.itemList.push(item);
-      this.itemList[this.itemList.length - 1].active = true;
     }
   },
   computed: {
