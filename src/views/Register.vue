@@ -1,5 +1,5 @@
 <template>
-  <v-layout row>
+  <v-layout>
     <CountRegister></CountRegister>
   </v-layout>
 </template>

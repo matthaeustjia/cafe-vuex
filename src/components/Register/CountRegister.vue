@@ -1,9 +1,11 @@
 <template>
-  <v-layout column justify-center align-center>
-    <h1>Excepted Cash $</h1>
-    <v-form>
-      <v-text-field type="number" v-model="realCash" placeholder="$" label="Real Cash"></v-text-field>
-    </v-form>
+  <v-layout row justify-center>
+    <v-flex xs8 sm6 lg4>
+      <h1>Excepted Cash $</h1>
+      <v-form>
+        <v-text-field type="number" v-model="realCash" placeholder="$" label="Real Cash"></v-text-field>
+      </v-form>
+    </v-flex>
   </v-layout>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
-  <v-layout row wrap justify-space-around>
+  <v-layout wrap justify-space-around>
     <v-flex xs12 sm6>
-      <v-layout row>
+      <v-layout>
         <v-flex xs6>
           <v-layout column>
             <v-icon>fa fa-coffee</v-icon>
@@ -97,7 +97,7 @@
           </v-list-group>
         </v-list>
       </v-card>
-      <v-layout v-if="itemList.length > 0" class="my-2" row justify-space-around>
+      <v-layout v-if="itemList.length > 0" class="my-2" justify-space-around>
         <v-card>
           <h1>Total ${{total}}</h1>
         </v-card>

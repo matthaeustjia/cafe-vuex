@@ -1,7 +1,6 @@
-
 <template>
   <v-app dark>
-    <v-content class="mb-5">
+    <v-content class="mt-2 mb-5">
       <router-view></router-view>
     </v-content>
     <Navigation></Navigation>
