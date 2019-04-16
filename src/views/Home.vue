@@ -1,6 +1,6 @@
 <template>
-  <v-layout row justify-space-around>
-    <v-flex xs6 row>
+  <v-layout row wrap justify-space-around>
+    <v-flex xs12 sm6>
       <v-layout row>
         <v-flex xs6>
           <v-layout column>
@@ -59,7 +59,7 @@
       </v-flex>
     </v-flex>
 
-    <v-flex xs5>
+    <v-flex xs12 sm5>
       <v-text-field
         autocomplete="off"
         name="name"
