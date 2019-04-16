@@ -1,5 +1,5 @@
 <template>
-  <v-layout column wrap align-center>
+  <v-container fluid>
     <v-layout justify-center>
       <h5 class="display-1">Today sales ${{totalSales}}</h5>
     </v-layout>
@@ -17,7 +17,7 @@
       <h5 class="display-1">Recent Order {{recentOrders.length}}</h5>
     </v-layout>
     <v-list>
-      <v-card width="400px">
+      <v-card>
         <v-list-group v-for="order in recentOrders" no-action>
           <template v-slot:activator>
             <v-list-tile>
@@ -57,7 +57,7 @@
         </v-list-group>
       </v-card>
     </v-list>
-  </v-layout>
+  </v-container>
 </template>
 
 <script>

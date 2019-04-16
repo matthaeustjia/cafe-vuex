@@ -18,7 +18,6 @@
     </v-flex>
   </v-layout>
 </template>
-
 <script>
 import store from "@/store";
 import { db } from "@/firebase";

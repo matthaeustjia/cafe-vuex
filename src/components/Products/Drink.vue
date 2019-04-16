@@ -1,14 +1,14 @@
 <template>
-  <v-layout row wrap>
-    <v-layout column wrap justify-center content-center>
-      <v-layout v-if="!addDrink" column wrap>
+  <v-layout row>
+    <v-layout column justify-center content-center>
+      <v-layout v-if="!addDrink" column>
         <DrinkList></DrinkList>
 
         <v-btn @click="addDrink = true" color="success">
           <v-icon>fa fa-plus</v-icon>
         </v-btn>
       </v-layout>
-      <v-layout v-else column wrap>
+      <v-layout v-else column>
         <AddDrink></AddDrink>
         <v-btn @click="addDrink = false" color="success">Done</v-btn>
       </v-layout>

@@ -1,7 +1,7 @@
 <template>
-  <v-layout column wrap>
-    <v-layout column wrap justify-center align-content-center>
-      <v-card width="400px" v-for="drink in drinkList">
+  <v-container fluid>
+    <v-layout column justify-center align-content-center>
+      <v-card v-for="drink in drinkList">
         <v-layout row justify-space-between>
           <h1>{{drink.name}}</h1>
           <v-btn @click="deleteDrink(drink)" small color="red">
@@ -16,7 +16,7 @@
         </v-card>
       </v-card>
     </v-layout>
-  </v-layout>
+  </v-container>
 </template>
 
 <script>

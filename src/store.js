@@ -44,11 +44,17 @@ export default new Vuex.Store({
     setServedFoods(state, servedFood) {
       state.servedFoods.push(servedFood);
     },
-    servedDrink(state, { product, index }) {
+    servedDrink(state, {
+      product,
+      index
+    }) {
       state.unservedDrinks.splice(index, 1);
       state.servedDrinks.push(product);
     },
-    servedFood(state, { product, index }) {
+    servedFood(state, {
+      product,
+      index
+    }) {
       state.unservedFoods.splice(index, 1);
       state.servedFoods.push(product);
     }

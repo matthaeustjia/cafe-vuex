@@ -8,7 +8,7 @@
         <v-icon>fas fa-utensils</v-icon>
       </v-tab>
     </v-tabs>
-    <v-layout row wrap justify-center>
+    <v-layout row justify-center>
       <Drink v-if="drinkSelection"></Drink>
       <Food v-else></Food>
     </v-layout>

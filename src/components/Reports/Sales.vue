@@ -1,5 +1,5 @@
 <template>
-  <v-layout column wrap align-center>
+  <v-container fluid>
     <v-form @submit.prevent="showSalesToggle">
       <v-dialog
         ref="startDialog"
@@ -49,10 +49,8 @@
       </v-dialog>
       <v-btn block :disabled="buttonIsDisabled" type="submit" color="success">View Sales</v-btn>
     </v-form>
-    <v-layout v-if="invoices.length > 0" column wrap align-center>
-      <v-layout justify-center>
-        <h5 class="display-1">Sales ${{totalSales}}</h5>
-      </v-layout>
+    <v-layout v-if="invoices.length > 0" column>
+      <h5 class="display-1">Sales ${{totalSales}}</h5>
       <v-layout row justify-center>
         <h6 class="headline">
           <v-icon color="orange">far fa-credit-card</v-icon>
@@ -63,11 +61,9 @@
           ${{totalCash}}
         </h6>
       </v-layout>
-      <v-layout justify-center>
-        <h5 class="display-1">Recent Order {{recentOrders.length}}</h5>
-      </v-layout>
+      <h5 class="display-1">Recent Order {{recentOrders.length}}</h5>
       <v-list class="pb-5">
-        <v-card width="400px">
+        <v-card>
           <v-list-group v-for="order in recentOrders" no-action>
             <template v-slot:activator>
               <v-list-tile>
@@ -108,7 +104,7 @@
         </v-card>
       </v-list>
     </v-layout>
-  </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -189,3 +185,4 @@ export default {
 
 <style scoped>
 </style>
+9fb6d770a7a33c8248cd77ce487ec4f7b50407af

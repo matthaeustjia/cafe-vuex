@@ -1,165 +1,159 @@
 <template>
-  <div>
-    <v-layout wrap justify-space-around>
-      <v-flex xs6 row>
-        <v-layout row>
-          <v-flex xs6>
-            <v-layout column>
-              <v-icon>fa fa-coffee</v-icon>
-              <v-layout column v-for="drink,parent_index in drinks">
+  <v-layout row justify-space-around>
+    <v-flex xs6 row>
+      <v-layout row>
+        <v-flex xs6>
+          <v-layout column>
+            <v-icon>fa fa-coffee</v-icon>
+            <v-layout column v-for="drink,parent_index in drinks">
+              <v-btn
+                round
+                large
+                @click="showMenuToggle(parent_index)"
+                color="primary"
+              >{{drink.name}}</v-btn>
+              <v-layout v-if="showMenuIndex == parent_index" column v-for="content, index in drink">
                 <v-btn
-                  round
                   large
-                  @click="showMenuToggle(parent_index)"
-                  color="primary"
-                >{{drink.name}}</v-btn>
-                <v-layout
-                  v-if="showMenuIndex == parent_index"
-                  column
-                  v-for="content, index in drink"
-                >
-                  <v-btn
-                    large
-                    round
-                    v-if="content.size"
-                    @click="addItemToInvoice(drinks[showMenuIndex],index)"
-                    color="success"
-                  >{{content.size}} ${{content.price}}</v-btn>
-                </v-layout>
-              </v-layout>
-            </v-layout>
-          </v-flex>
-          <v-flex xs6>
-            <v-layout column>
-              <v-icon>fas fa-utensils</v-icon>
-              <v-layout column v-for="food, index in foods">
-                <v-btn
                   round
-                  large
-                  @click="addItemToInvoice(food,index)"
-                  color="primary"
-                >{{food.name}} ${{food.price}}</v-btn>
+                  v-if="content.size"
+                  @click="addItemToInvoice(drinks[showMenuIndex],index)"
+                  color="success"
+                >{{content.size}} ${{content.price}}</v-btn>
               </v-layout>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-        <v-flex xs12>
-          <v-layout v-if="showOptionIndex != null" column>
-            <v-icon>list</v-icon>
-            <v-layout
-              v-if="showOptionIndex != null && showOptionType=='food'"
-              column
-              v-for="option, index in foodOptions"
-            >
-              <v-btn large @click="addOptionToInvoice(option)" color="secondary">{{option.name}}</v-btn>
-            </v-layout>
-            <v-layout
-              v-if="showOptionIndex != null && showOptionType=='drink'"
-              column
-              v-for="option in drinkOptions"
-            >
-              <v-btn large @click="addOptionToInvoice(option)" color="secondary">{{option.name}}</v-btn>
             </v-layout>
           </v-layout>
         </v-flex>
+        <v-flex xs6>
+          <v-layout column>
+            <v-icon>fas fa-utensils</v-icon>
+            <v-layout column v-for="food, index in foods">
+              <v-btn
+                round
+                large
+                @click="addItemToInvoice(food,index)"
+                color="primary"
+              >{{food.name}} ${{food.price}}</v-btn>
+            </v-layout>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+      <v-flex xs12>
+        <v-layout v-if="showOptionIndex != null" column>
+          <v-icon>list</v-icon>
+          <v-layout
+            v-if="showOptionIndex != null && showOptionType=='food'"
+            column
+            v-for="option, index in foodOptions"
+          >
+            <v-btn large @click="addOptionToInvoice(option)" color="secondary">{{option.name}}</v-btn>
+          </v-layout>
+          <v-layout
+            v-if="showOptionIndex != null && showOptionType=='drink'"
+            column
+            v-for="option in drinkOptions"
+          >
+            <v-btn large @click="addOptionToInvoice(option)" color="secondary">{{option.name}}</v-btn>
+          </v-layout>
+        </v-layout>
       </v-flex>
+    </v-flex>
 
-      <v-flex xs5>
-        <v-text-field
-          autocomplete="off"
-          name="name"
-          label="Name..."
-          v-model="customerName"
-          append-icon="fas fa-address-card"
-          single-line
-        ></v-text-field>
-        <v-card>
-          <v-list v-if="itemList.length > 0">
-            <v-list-group :value="true" v-for="order, parent_index in itemList" no-action>
-              <template v-slot:activator>
-                <v-list-tile>
-                  <v-list-tile-content @click="showOption(parent_index,order.type)">
-                    <v-list-tile-title>{{order.size}} {{order.name}} ${{order.price}}</v-list-tile-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-icon @click="removeItemFromInvoice(parent_index)" color="red">fa fa-trash</v-icon>
-                  </v-list-tile-action>
-                </v-list-tile>
-              </template>
-
-              <v-list-tile v-for="optionList, index in order.option">
-                <v-list-tile-content>
-                  <v-list-tile-title>{{ optionList.name }}</v-list-tile-title>
+    <v-flex xs5>
+      <v-text-field
+        autocomplete="off"
+        name="name"
+        label="Name..."
+        v-model="customerName"
+        append-icon="fas fa-address-card"
+        single-line
+      ></v-text-field>
+      <v-card>
+        <v-list v-if="itemList.length > 0">
+          <v-list-group :value="true" v-for="order, parent_index in itemList" no-action>
+            <template v-slot:activator>
+              <v-list-tile>
+                <v-list-tile-content @click="showOption(parent_index,order.type)">
+                  <v-list-tile-title>{{order.size}} {{order.name}} ${{order.price}}</v-list-tile-title>
                 </v-list-tile-content>
-
                 <v-list-tile-action>
-                  <v-icon
-                    @click="removeOptionFromInvoice(parent_index, index)"
-                    color="red"
-                  >fa fa-trash</v-icon>
+                  <v-icon @click="removeItemFromInvoice(parent_index)" color="red">fa fa-trash</v-icon>
                 </v-list-tile-action>
               </v-list-tile>
-            </v-list-group>
-          </v-list>
-        </v-card>
-        <v-layout v-if="itemList.length > 0" class="my-2" row justify-space-around>
-          <v-card>
-            <h1>Total ${{total}}</h1>
-          </v-card>
-          <v-card>
-            <h1>Due ${{amountDue}}</h1>
-          </v-card>
-        </v-layout>
+            </template>
 
-        <v-layout class="mt-2 pb-5" v-if="itemList.length > 0" justify-center>
-          <v-flex v-if="paymentMethod == null" xs12>
-            <v-layout column justify-center>
-              <v-btn @click="paymentMethodToggle('cash')" block large color="success">
-                <v-icon>far fa-money-bill-alt</v-icon>
-              </v-btn>
-              <v-btn @click="paymentMethodToggle('card')" block large color="warning">
-                <v-icon>far fa-credit-card</v-icon>
-              </v-btn>
-            </v-layout>
-          </v-flex>
-          <v-flex v-else xs12>
-            <v-layout v-if="paymentMethod == 'cash'" column reverse justify-center>
-              <v-form @submit.prevent="paidBy('cash')">
-                <v-text-field
-                  @focus="amountPaid = ''"
-                  autocomplete="off"
-                  label="Cash amount..."
-                  type="number"
-                  v-model="amountPaid"
-                  append-icon="far fa-money-bill-alt"
-                  single-line
-                  :rules="[() => amountPaid.length > 0 || 'This field is required']"
-                ></v-text-field>
-                <v-btn :disabled="amountPaid ==''" type="submit" block large color="success">Submit</v-btn>
-                <v-btn @click="paymentMethod = null" block large color="warning">Back</v-btn>
-              </v-form>
-            </v-layout>
-            <v-layout v-else column justify-center>
-              <v-form @submit.prevent="paidBy('card')">
-                <v-text-field
-                  autocomplete="off"
-                  type="number"
-                  @focus="amountPaid = ''"
-                  label="Amount..."
-                  v-model="amountPaid"
-                  append-icon="far fa-credit-card"
-                  single-line
-                  :rules="[() => amountPaid.length > 0 || 'This field is required']"
-                ></v-text-field>
-                <v-btn :disabled="amountPaid ==''" type="submit" block large color="success">Submit</v-btn>
-                <v-btn @click="paymentMethod = null" block large color="warning">Back</v-btn>
-              </v-form>
-            </v-layout>
-          </v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-  </div>
+            <v-list-tile v-for="optionList, index in order.option">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ optionList.name }}</v-list-tile-title>
+              </v-list-tile-content>
+
+              <v-list-tile-action>
+                <v-icon
+                  @click="removeOptionFromInvoice(parent_index, index)"
+                  color="red"
+                >fa fa-trash</v-icon>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list-group>
+        </v-list>
+      </v-card>
+      <v-layout v-if="itemList.length > 0" class="my-2" row justify-space-around>
+        <v-card>
+          <h1>Total ${{total}}</h1>
+        </v-card>
+        <v-card>
+          <h1>Due ${{amountDue}}</h1>
+        </v-card>
+      </v-layout>
+
+      <v-layout class="mt-2 pb-5" v-if="itemList.length > 0" justify-center>
+        <v-flex v-if="paymentMethod == null" xs12>
+          <v-layout column justify-center>
+            <v-btn @click="paymentMethodToggle('cash')" block large color="success">
+              <v-icon>far fa-money-bill-alt</v-icon>
+            </v-btn>
+            <v-btn @click="paymentMethodToggle('card')" block large color="warning">
+              <v-icon>far fa-credit-card</v-icon>
+            </v-btn>
+          </v-layout>
+        </v-flex>
+        <v-flex v-else xs12>
+          <v-layout v-if="paymentMethod == 'cash'" column reverse justify-center>
+            <v-form @submit.prevent="paidBy('cash')">
+              <v-text-field
+                @focus="amountPaid = ''"
+                autocomplete="off"
+                label="Cash amount..."
+                type="number"
+                v-model="amountPaid"
+                append-icon="far fa-money-bill-alt"
+                single-line
+                :rules="[() => amountPaid.length > 0 || 'This field is required']"
+              ></v-text-field>
+              <v-btn :disabled="amountPaid ==''" type="submit" block large color="success">Submit</v-btn>
+              <v-btn @click="paymentMethod = null" block large color="warning">Back</v-btn>
+            </v-form>
+          </v-layout>
+          <v-layout v-else column justify-center>
+            <v-form @submit.prevent="paidBy('card')">
+              <v-text-field
+                autocomplete="off"
+                type="number"
+                @focus="amountPaid = ''"
+                label="Amount..."
+                v-model="amountPaid"
+                append-icon="far fa-credit-card"
+                single-line
+                :rules="[() => amountPaid.length > 0 || 'This field is required']"
+              ></v-text-field>
+              <v-btn :disabled="amountPaid ==''" type="submit" block large color="success">Submit</v-btn>
+              <v-btn @click="paymentMethod = null" block large color="warning">Back</v-btn>
+            </v-form>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>

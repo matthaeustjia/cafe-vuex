@@ -1,20 +1,12 @@
 <template>
-  <v-layout column wrap>
-    <template>
-      <v-toolbar flat color="grey">
-        <v-toolbar-title>History</v-toolbar-title>
-      </v-toolbar>
-      <v-data-table :items="registerHistory" class="elevation-1" hide-actions hide-headers>
-        <template v-slot:items="props">
-          <td>{{ props.d }}</td>
-          <td class="text-xs-right">{{ props.d }}</td>
-        </template>
-      </v-data-table>
-    </template>
+  <v-layout column justify-center align-center>
+    <h1>Excepted Cash $</h1>
+    <v-form>
+      <v-text-field type="number" v-model="realCash" placeholder="$" label="Real Cash"></v-text-field>
+    </v-form>
   </v-layout>
 </template>
-  </v-layout>
-</template>
+
 
 <script>
 import store from "@/store";
@@ -23,7 +15,8 @@ import { db } from "@/firebase";
 export default {
   data() {
     return {
-      registerHistory: []
+      registerHistory: [],
+      realCash: ""
     };
   },
   computed: {
@@ -53,3 +46,4 @@ export default {
 
 <style lang="scss" scoped>
 </style>
+
