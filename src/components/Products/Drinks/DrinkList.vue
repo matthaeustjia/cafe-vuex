@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout column justify-center align-content-center>
       <v-card v-for="drink in drinkList">
-        <v-layout row justify-space-between>
+        <v-layout class="mx-2" row justify-space-between>
           <h1>{{drink.name}}</h1>
           <v-btn @click="deleteDrink(drink)" small color="red">
             <v-icon>delete_forever</v-icon>

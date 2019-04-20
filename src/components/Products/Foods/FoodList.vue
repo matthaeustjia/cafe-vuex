@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-layout column justify-center align-content-center>
       <v-card v-for="food in foodList">
-        <v-layout row justify-space-between>
+        <v-layout class="mx-2" row justify-space-between>
           <h1>{{food.name}} ${{food.price}}</h1>
           <v-btn @click="deleteFood(food)" small color="red">
             <v-icon>delete_forever</v-icon>

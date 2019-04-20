@@ -97,14 +97,12 @@
           </v-list-group>
         </v-list>
       </v-card>
-      <v-layout v-if="itemList.length > 0" class="my-2" justify-space-around>
-        <v-card>
+      <v-card color="transparent" flat>
+        <v-layout v-if="itemList.length > 0" class="my-2" row justify-space-around>
           <h1>Total ${{total}}</h1>
-        </v-card>
-        <v-card>
           <h1>Due ${{amountDue}}</h1>
-        </v-card>
-      </v-layout>
+        </v-layout>
+      </v-card>
 
       <v-layout class="mt-2 pb-5" v-if="itemList.length > 0" justify-center>
         <v-flex v-if="paymentMethod == null" xs12>
