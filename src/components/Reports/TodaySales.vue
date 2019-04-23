@@ -36,7 +36,11 @@
           </template>
           <v-list-tile v-for="itemList in order.itemList">
             <v-list-tile-content>
-              <v-list-tile-title>{{itemList.size }} {{ itemList.name }} ${{itemList.price}}</v-list-tile-title>
+              <v-list-tile-title>
+                <v-icon class="ml-1" v-if="itemList.type == 'drink'" small>fa fa-coffee</v-icon>
+                <v-icon class="ml-1" v-else small>fas fa-utensils</v-icon>
+                {{itemList.size }} {{ itemList.name }} ${{itemList.price}}
+              </v-list-tile-title>
               <v-layout
                 v-if="itemList.option"
                 row
