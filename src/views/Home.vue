@@ -1,7 +1,7 @@
 <template>
   <v-layout wrap justify-space-around>
     <v-flex xs12 sm6>
-      <v-layout>
+      <v-layout v-if="customItem == ''">
         <v-flex xs6>
           <v-layout column>
             <v-icon>fa fa-coffee</v-icon>
@@ -22,6 +22,9 @@
                 >{{content.size}} ${{content.price}}</v-btn>
               </v-layout>
             </v-layout>
+            <v-btn large round @click="customItem = 'drink'" color="orange">
+              <v-icon>fa fa-plus</v-icon>
+            </v-btn>
           </v-layout>
         </v-flex>
         <v-flex xs6>
@@ -35,11 +38,69 @@
                 color="primary"
               >{{food.name}} ${{food.price}}</v-btn>
             </v-layout>
+            <v-btn large round @click="customItem = 'food'" color="orange">
+              <v-icon>fa fa-plus</v-icon>
+            </v-btn>
           </v-layout>
         </v-flex>
       </v-layout>
+      <v-layout class="ma-3" v-else>
+        <v-layout column v-if="customItem == 'drink'">
+          <v-form @submit.prevent="addCustomItem">
+            <v-select :items="sizes" v-model="customItemSize" label="Size"></v-select>
+            <v-text-field v-model="customItemName" name="drinkName" label="Drink Name"></v-text-field>
+            <v-text-field
+              v-model="customItemPrice"
+              type="number"
+              name="drinkPrice"
+              label="Drink Price"
+            ></v-text-field>
+            <v-btn
+              :disabled="addCustomItemDisabled"
+              type="submit"
+              round
+              large
+              block
+              color="success"
+              dark
+            >
+              <v-icon>fa fa-plus</v-icon>
+            </v-btn>
+
+            <v-btn @click="customItem = ''" round large block color="red" dark>
+              <v-icon>fa fa-window-close</v-icon>
+            </v-btn>
+          </v-form>
+        </v-layout>
+        <v-layout column v-else>
+          <v-form @submit.prevent="addCustomItem">
+            <v-text-field v-model="customItemName" name="foodName" label="Food Name"></v-text-field>
+            <v-text-field
+              v-model="customItemPrice"
+              type="number"
+              name="foodPrice"
+              label="Food Price"
+            ></v-text-field>
+            <v-btn
+              :disabled="addCustomItemDisabled"
+              type="submit"
+              round
+              large
+              block
+              color="success"
+              dark
+            >
+              <v-icon>fa fa-plus</v-icon>
+            </v-btn>
+
+            <v-btn @click="customItem = ''" round large block color="red" dark>
+              <v-icon>fa fa-window-close</v-icon>
+            </v-btn>
+          </v-form>
+        </v-layout>
+      </v-layout>
       <v-flex xs12>
-        <v-layout v-if="showOptionIndex != null" column>
+        <v-layout v-if="showOptionIndex != null && customItem == ''" column>
           <v-icon>list</v-icon>
           <v-layout
             v-if="showOptionIndex != null && showOptionType=='food'"
@@ -59,7 +120,7 @@
       </v-flex>
     </v-flex>
 
-    <v-flex xs12 sm5>
+    <v-flex class="ma-2" xs12 sm5>
       <v-text-field
         autocomplete="off"
         name="name"
@@ -106,14 +167,12 @@
 
       <v-layout class="mt-2 pb-5" v-if="itemList.length > 0" justify-center>
         <v-flex v-if="paymentMethod == null" xs12>
-          <v-layout column justify-center>
-            <v-btn @click="paymentMethodToggle('cash')" block large color="success">
-              <v-icon>far fa-money-bill-alt</v-icon>
-            </v-btn>
-            <v-btn @click="paymentMethodToggle('card')" block large color="warning">
-              <v-icon>far fa-credit-card</v-icon>
-            </v-btn>
-          </v-layout>
+          <v-btn @click="paymentMethodToggle('cash')" block large color="success">
+            <v-icon>far fa-money-bill-alt</v-icon>
+          </v-btn>
+          <v-btn @click="paymentMethodToggle('card')" block large color="warning">
+            <v-icon>far fa-credit-card</v-icon>
+          </v-btn>
         </v-flex>
         <v-flex v-else xs12>
           <v-layout v-if="paymentMethod == 'cash'" column reverse justify-center>
@@ -163,6 +222,11 @@ export default {
   data() {
     return {
       itemList: [],
+      sizes: ["S", "M", "L"],
+      customItem: "",
+      customItemName: "",
+      customItemPrice: "",
+      customItemSize: "S",
       paid: [],
       amountPaid: "",
       customerName: "",
@@ -185,6 +249,35 @@ export default {
     };
   },
   methods: {
+    addCustomItem() {
+      let item;
+      if (this.customItem == "drink") {
+        item = {
+          name: this.customItemName,
+          type: this.customItem,
+          size: this.customItemSize,
+          price: this.customItemPrice,
+          served: false,
+          option: []
+        };
+      } else {
+        item = {
+          name: this.customItemName,
+          type: this.customItem,
+          price: this.customItemPrice,
+          served: false,
+          option: []
+        };
+      }
+      this.customItem = "";
+      this.customItemName = "";
+      this.customItemPrice = "";
+      this.showMenuIndex = null;
+      this.showOptionIndex = this.itemList.length;
+      this.showOptionType = item.type;
+      this.paymentMethod = null;
+      this.itemList.push(item);
+    },
     paymentMethodToggle(paymentMethod) {
       this.amountPaid = this.amountDue;
       this.paymentMethod = paymentMethod;
@@ -300,6 +393,12 @@ export default {
     }
   },
   computed: {
+    addCustomItemDisabled() {
+      if (this.customItemName == "" || this.customItemPrice == "") return true;
+      else {
+        return false;
+      }
+    },
     amountDue() {
       let amountDue = 0;
       for (let i = 0; i < this.paid.length; i++) {
@@ -325,8 +424,3 @@ export default {
   components: {}
 };
 </script>
-<style scoped>
-.btn-large {
-  height: 500px;
-}
-</style>
