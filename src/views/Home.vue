@@ -46,6 +46,7 @@
       </v-layout>
       <v-layout class="ma-3" v-else>
         <v-layout column v-if="customItem == 'drink'">
+          <v-icon>fa fa-coffee</v-icon>
           <v-form @submit.prevent="addCustomItem">
             <v-select :items="sizes" v-model="customItemSize" label="Size"></v-select>
             <v-text-field v-model="customItemName" name="drinkName" label="Drink Name"></v-text-field>
@@ -73,6 +74,7 @@
           </v-form>
         </v-layout>
         <v-layout column v-else>
+          <v-icon>fas fa-utensils</v-icon>
           <v-form @submit.prevent="addCustomItem">
             <v-text-field v-model="customItemName" name="foodName" label="Food Name"></v-text-field>
             <v-text-field

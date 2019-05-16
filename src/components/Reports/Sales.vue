@@ -61,10 +61,10 @@
           ${{totalCash}}
         </h6>
       </v-layout>
-      <h5 class="display-1">Recent Order {{recentOrders.length}}</h5>
+      <h5 class="display-1">Recent Order {{invoices.length}}</h5>
       <v-list class="pb-5">
         <v-card>
-          <v-list-group v-for="order in recentOrders" no-action>
+          <v-list-group v-for="order in invoices.slice().reverse()" no-action>
             <template v-slot:activator>
               <v-list-tile>
                 <v-list-tile-content v-for="paid  in order.paid">
@@ -164,9 +164,6 @@ export default {
         }
       }
       return Math.round(totalCash * 100) / 100;
-    },
-    recentOrders() {
-      return this.invoices.slice().reverse();
     }
   },
   methods: {
