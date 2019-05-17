@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     // = data
     invoices: [],
+    user: null,
     todayDate: new Date().toLocaleDateString("en-AU", {
       timeZone: "Australia/Sydney"
     }),
@@ -26,6 +27,9 @@ export default new Vuex.Store({
   },
   mutations: {
     // = setting and updating the state
+    setUser(state, user) {
+      state.user = user;
+    },
     setInvoices(state, invoice) {
       state.invoices.push(invoice);
     },

@@ -3,7 +3,7 @@
     <v-content class="mt-2 mb-5">
       <router-view></router-view>
     </v-content>
-    <Navigation></Navigation>
+    <Navigation v-if="user"></Navigation>
   </v-app>
 </template>
 
@@ -19,6 +19,9 @@ export default {
   computed: {
     todayDate() {
       return store.state.todayDate;
+    },
+    user() {
+      return store.state.user;
     }
   },
   created() {

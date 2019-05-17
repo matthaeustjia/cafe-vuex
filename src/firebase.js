@@ -1,5 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/database";
+import "firebase/auth";
 
 export var app = firebase.initializeApp({
   apiKey: "AIzaSyBZDWC2z_exx4XaIPHHhC1J3Mt7GwQQ-bA",
@@ -12,3 +13,4 @@ export var app = firebase.initializeApp({
 
 export const time = firebase.database.ServerValue.TIMESTAMP;
 export const db = app.database();
+export const auth = app.auth();

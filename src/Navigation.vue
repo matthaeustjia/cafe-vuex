@@ -10,12 +10,12 @@
       <v-icon>shopping_basket</v-icon>
     </v-btn>
 
-    <v-btn to="/management" flat color="light-blue">
+    <v-btn v-if="user == 'admin'" to="/management" flat color="light-blue">
       <span>Management</span>
       <v-icon>fastfood</v-icon>
     </v-btn>
 
-    <v-btn to="/report" flat color="light-blue">
+    <v-btn v-if="user == 'admin'" to="/report" flat color="light-blue">
       <span>Report</span>
       <v-icon>description</v-icon>
     </v-btn>
@@ -26,3 +26,14 @@
     </v-btn>
   </v-bottom-nav>
 </template>
+
+<script>
+import store from "@/store";
+export default {
+  computed: {
+    user() {
+      return store.state.user;
+    }
+  }
+};
+</script>
