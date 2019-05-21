@@ -28,7 +28,11 @@ export default new Vuex.Store({
   mutations: {
     // = setting and updating the state
     setUser(state, user) {
-      state.user = user;
+      if (user == "logout") {
+        state.user = null;
+      } else {
+        state.user = user.toLowerCase();
+      }
     },
     setInvoices(state, invoice) {
       state.invoices.push(invoice);
