@@ -48,9 +48,14 @@ export default {
   methods: {
     signIn() {
       let user = this.user + "@cafe.com";
-      auth.signInWithEmailAndPassword(user, this.password).then(() => {
-        store.commit("setUser", this.user), this.$router.push("/");
-      });
+      auth
+        .signInWithEmailAndPassword(user, this.password)
+        .then(() => {
+          store.commit("setUser", this.user), this.$router.push("/");
+        })
+        .catch(error => {
+          alert(error.message);
+        });
     }
   }
 };
